@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logsfolio | Developer Portfolio</title>
+  <meta name="description" content="A clean looking FREE portfolio template for devs. Built with NextJS & TailwindCSS" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class'],
+      theme: {
+        container: {
+          center: true,
+          padding: '2rem',
+          screens: {
+            '2xl': '1400px',
+          },
+        },
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- globals.css -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 224 71.4% 4.1%;
+      --card: 0 0% 100%;
+      --card-foreground: 224 71.4% 4.1%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 224 71.4% 4.1%;
+      --primary: 262.1 83.3% 57.8%;
+      --primary-foreground: 210 20% 98%;
+      --secondary: 220 14.3% 95.9%;
+      --secondary-foreground: 220.9 39.3% 11%;
+      --muted: 220 14.3% 95.9%;
+      --muted-foreground: 220 8.9% 46.1%;
+      --accent: 220 14.3% 95.9%;
+      --accent-foreground: 220.9 39.3% 11%;
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 210 20% 98%;
+      --border: 220 13% 91%;
+      --input: 220 13% 91%;
+      --ring: 262.1 83.3% 57.8%;
+      --radius: 0.5rem;
+    }
+
+    .dark {
+      --background: 224 71.4% 4.1%;
+      --foreground: 210 20% 98%;
+      --card: 224 71.4% 4.1%;
+      --card-foreground: 210 20% 98%;
+      --popover: 224 71.4% 4.1%;
+      --popover-foreground: 210 20% 98%;
+      --primary: 263.4 70% 50.4%;
+      --primary-foreground: 210 20% 98%;
+      --secondary: 215 27.9% 16.9%;
+      --secondary-foreground: 210 20% 98%;
+      --muted: 215 27.9% 16.9%;
+      --muted-foreground: 217.9 10.6% 64.9%;
+      --accent: 215 27.9% 16.9%;
+      --accent-foreground: 210 20% 98%;
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 210 20% 98%;
+      --border: 215 27.9% 16.9%;
+      --input: 215 27.9% 16.9%;
+      --ring: 263.4 70% 50.4%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    body.dark {
+      background: #000;
+      color: #aeaeae;
+    }
+
+    .blog-post h1 { font-size: 2.5em; }
+    .blog-post h2 { font-size: 2em; }
+    .blog-post h3 { font-size: 1.75em; }
+    .blog-post h4 { font-size: 1.5em; }
+    .blog-post h5 { font-size: 1.25em; }
+    .blog-post h6 { font-size: 1em; }
+    .blog-post p { margin: 0 0 1.5em; }
+    .blog-post a { color: #3498db; text-decoration: none; }
+    .blog-post a:hover { text-decoration: underline; }
+    .blog-post strong { font-weight: bold; }
+    .blog-post em { font-style: italic; }
+    .blog-post blockquote {
+      font-style: italic;
+      color: #666;
+      margin: 1.5em 10px;
+      padding: 0.5em 10px;
+      border-left: 5px solid #ccc;
+    }
+    .blog-post ul, .blog-post ol { margin: 0 0 1.5em 1.5em; }
+    .blog-post li { margin-bottom: 0.5em; }
+    .blog-post code {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+      color: #c7254e;
+    }
+    .blog-post pre {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 4px;
+      overflow: auto;
+    }
+    .blog-post img { max-width: 100%; height: auto; }
+    .blog-post figure { margin: 0 0 1.5em; }
+    .blog-post figcaption { font-size: 0.9em; color: #666; text-align: center; }
+    .blog-post hr {
+      border: 0;
+      height: 1px;
+      background: #ccc;
+      margin: 2em 0;
+    }
+
+    @media (max-width: 768px) {
+      .blog-post h1 { font-size: 2em; }
+      .blog-post h2 { font-size: 1.75em; }
+      .blog-post h3 { font-size: 1.5em; }
+      .blog-post h4 { font-size: 1.25em; }
+      .blog-post h5 { font-size: 1em; }
+      .blog-post h6 { font-size: 0.875em; }
+    }
+
+    /* Mobile menu animations */
+    #mobile-menu {
+      display: none;
+    }
+    #mobile-menu.open {
+      display: block;
+    }
+    #mobile-panel {
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(100%);
+    }
+    #mobile-menu.open #mobile-panel {
+      transform: translateX(0);
+    }
+    #mobile-overlay {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    #mobile-menu.open #mobile-overlay {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Early theme init (prevents flash) -->
+  <script>
+    if (localStorage.getItem('globalTheme') === 'dark') {
+      document.body.classList.add('dark');
+    }
+  </script>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="fixed top-0 z-50 w-full bg-white shadow-sm dark:bg-gray-950">
+    <div class="container max-w-5xl mx-auto flex h-18 items-center justify-between py-2 px-4 md:px-6">
+      <a href="/" class="flex items-center">
+        <img src="/assets/logo.png" height="60" width="60" alt="devfolio logo" />
+      </a>
+      <nav class="hidden space-x-4 lg:flex">
+        <button type="button" class="theme-toggle mb text-gray-350" aria-label="Toggle theme">
+          <svg class="icon-sun h-[15px] w-[15px] hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7.5" cy="7.5" r="3"/>
+            <path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M2.9 2.9l1.05 1.05M11.05 11.05l1.05 1.05M2.9 12.1l1.05-1.05M11.05 3.95l1.05-1.05"/>
+          </svg>
+          <svg class="icon-moon h-[15px] w-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.5 9.5A5.5 5.5 0 0 1 5.5 2.5 5.5 5.5 0 1 0 12.5 9.5Z"/>
+          </svg>
+        </button>
+        <a href="#experience" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50">Experience</a>
+        <a href="#projects" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50">Projects</a>
+        <a href="#education" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50">Education</a>
+        <a href="#testimonials" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50">Testimonials</a>
+        <a href="#blogs" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50">Blogs</a>
+      </nav>
+      <button type="button" id="mobile-open" class="lg:hidden inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9" aria-label="Toggle navigation menu">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"/>
+          <line x1="4" x2="20" y1="6" y2="6"/>
+          <line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+        <span class="sr-only">Toggle navigation menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="h-20"></div>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+
+    <!-- ===== Banner ===== -->
+    <section id="home" class="container max-w-5xl mx-auto py-12 md:py-16 lg:py-20">
+      <div class="flex flex-col lg:flex-row items-center justify-center gap-12">
+        <div class="w-1/2 mx-auto lg:w-1/3">
+          <img src="/assets/profile.jpg" width="280" height="280" alt="Developer" class="mx-auto aspect-square overflow-hidden object-cover object-center rounded-full" />
+        </div>
+        <div class="w-full lg:w-2/3 space-y-4">
+          <div class="space-y-2">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tighter">Hey 👋, I&#39;m Arif Hossain</h1>
+          </div>
+          <p class="max-w-[600px] lg:text-lg text-gray-500 dark:text-gray-400">
+            I am a passionate full-stack developer with a strong background in building modern, scalable web applications. Lets collaborate andbring your ideas to life.
+          </p>
+          <div class="space-x-4">
+            <a href="#!" class="inline-block">
+              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 h-9 w-9">
+                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              </button>
+            </a>
+            <a href="#!" class="inline-block">
+              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 h-9 w-9">
+                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+              </button>
+            </a>
+            <a href="#!" class="inline-block">
+              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 h-9 w-9">
+                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+              </button>
+            </a>
+            <a href="mailto:devarifhossain@gmail.com" class="inline-block">
+              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 h-9 w-9">
+                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Experience ===== -->
+    <section id="experience" class="container max-w-5xl mx-auto py-12 md:py-16 lg:py-20">
+      <h2 class="font-bold text-3xl md:text-5xl mb-12">Work Experience</h2>
+      <div class="relative pl-6 after:absolute after:content-[''] after:inset-y-0 after:left-0 after:w-px after:bg-gray-500/20 dark:after:bg-gray-400/20 grid gap-10">
+
+        <div class="grid gap-1 relative">
+          <div class="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29.5px] z-10 top-2 dark:bg-gray-50"></div>
+          <h4 class="text-xl font-medium">
+            Senior Full Stack Developer @
+            <a href="#!" class="ml-2 text-primary">Tech Corp</a>
+          </h4>
+          <div class="text-gray-500 dark:text-gray-400">Jan 2020 - Present</div>
+          <div class="mt-2">
+            <h6 class="font-medium">Key Responsibilities:</h6>
+            <ul class="text-gray-500 text-sm list-disc pl-4">
+              <li>Led a team of developers to create scalable web applications.</li>
+              <li>Implemented RESTful and GraphQL APIs using Node.js and Express.</li>
+              <li>Developed front-end applications using React and Next.js.</li>
+              <li>Integrated third-party services and APIs to enhance application functionality.</li>
+              <li>Mentored junior developers and conducted code reviews.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid gap-1 relative">
+          <div class="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29.5px] z-10 top-2 dark:bg-gray-50"></div>
+          <h4 class="text-xl font-medium">
+            Full Stack Developer @
+            <a href="#!" class="ml-2 text-primary">Web Solutions</a>
+          </h4>
+          <div class="text-gray-500 dark:text-gray-400">Jun 2017 - Dec 2019</div>
+          <div class="mt-2">
+            <h6 class="font-medium">Key Responsibilities:</h6>
+            <ul class="text-gray-500 text-sm list-disc pl-4">
+              <li>Designed and developed web applications using JavaScript and React.</li>
+              <li>Built and maintained server-side APIs with Node.js and Express.</li>
+              <li>Collaborated with cross-functional teams to deliver high-quality products.</li>
+              <li>Ensured applications are responsive and performant.</li>
+              <li>Participated in Agile ceremonies and contributed to project planning.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== Projects ===== -->
+    <section id="projects" class="container max-w-5xl mx-auto py-12 md:py-16 lg:py-20">
+      <h2 class="font-bold text-3xl md:text-5xl mb-12">My Projects</h2>
+      <div class="grid grid-cols-1 gap-4 lg:gap-6">
+
+        <!-- Project 1 -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col lg:flex-row">
+          <div class="w-full lg:w-1/3 p-2 flex items-center">
+            <img src="/assets/project_1.jpeg" alt="Project 1" height="200" width="300" class="rounded-md object-cover" />
+          </div>
+          <div class="w-full lg:w-2/3">
+            <div class="flex flex-col space-y-1.5 p-6">
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Makers Tracker</h3>
+              <div class="flex flex-wrap gap-2">
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Typescript</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Next.js</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">TailwindCSS</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">MySQL</div>
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <p class="text-sm text-muted-foreground">A project goal tracking tool for professionals. It let&#39;s you create project, assign goals and generate analytics to track progress</p>
+            </div>
+            <div class="flex items-center p-6 pt-0">
+              <div class="flex space-x-3">
+                <a href="#!" class="inline-block">
+                  <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-4 text-xs">
+                    <svg class="h-3 w-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    Live Demo
+                  </button>
+                </a>
+                <a href="#!" class="inline-block">
+                  <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-4 text-xs">
+                    <svg class="h-3 w-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    Open Repository
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col lg:flex-row">
+          <div class="w-full lg:w-1/3 p-2 flex items-center">
+            <img src="/assets/project_2.jpeg" alt="Project 2" height="200" width="300" class="rounded-md object-cover" />
+          </div>
+          <div class="w-full lg:w-2/3">
+            <div class="flex flex-col space-y-1.5 p-6">
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Pricing Bees</h3>
+              <div class="flex flex-wrap gap-2">
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Typescript</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Next.js</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Shadcn/ui</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Convex</div>
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <p class="text-sm text-muted-foreground">A no-code pricing page builder. Build professional-looking pricing pages, customize looks, and get detailed analytics to optimize your pricing strategy.</p>
+            </div>
+            <div class="flex items-center p-6 pt-0">
+              <div class="flex space-x-3">
+                <a href="#!" class="inline-block">
+                  <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-4 text-xs">
+                    <svg class="h-3 w-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    Live Demo
+                  </button>
+                </a>
+                <a href="#!" class="inline-block">
+                  <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-4 text-xs">
+                    <svg class="h-3 w-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    Open Repository
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col lg:flex-row">
+          <div class="w-full lg:w-1/3 p-2 flex items-center">
+            <img src="/assets/project_3.jpeg" alt="Project 3" height="200" width="300" class="rounded-md object-cover" />
+          </div>
+          <div class="w-full lg:w-2/3">
+            <div class="flex flex-col space-y-1.5 p-6">
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Indie Hustles</h3>
+              <div class="flex flex-wrap gap-2">
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Typescript</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Next.js</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">TailwindCSS</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">Airtable</div>
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <p class="text-sm text-muted-foreground">A listing site for Indie hackers to promote their products</p>
+            </div>
+            <div class="flex items-center p-6 pt-0">
+              <div class="flex space-x-3">
+                <a href="#!" class="inline-block">
+                  <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-4 text-xs">
+                    <svg class="h-3 w-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    Live Demo
+                  </button>
+                </a>
+                <a href="#!" class="inline-block">
+                  <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-4 text-xs">
+                    <svg class="h-3 w-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    Open Repository
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== Education ===== -->
+    <section id="education" class="container max-w-5xl mx-auto py-12 md:py-16 lg:py-20">
+      <h2 class="font-bold text-3xl md:text-5xl mb-12">Education</h2>
+      <div class="relative pl-6 after:absolute after:content-[''] after:inset-y-0 after:left-0 after:w-px after:bg-gray-500/20 dark:after:bg-gray-400/20 grid gap-10">
+
+        <div class="grid gap-1 relative">
+          <div class="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29.5px] z-10 top-2 dark:bg-gray-50"></div>
+          <h4 class="text-xl font-medium">Full Stack Web Development with React</h4>
+          <h5 class="font-medium">Coursera</h5>
+          <div class="text-gray-500 dark:text-gray-400">Sep 2013 - May 2017</div>
+          <p class="mt-2 text-sm text-gray-500">Completed a Coursera specialization that focused on building full-stack web applications using React, Node.js, Express, and MongoDB. Learned best practices for designing and implementing responsive, scalable, and secure web applications.</p>
+        </div>
+
+        <div class="grid gap-1 relative">
+          <div class="aspect-square w-3 bg-gray-900 rounded-full absolute left-0 translate-x-[-29.5px] z-10 top-2 dark:bg-gray-50"></div>
+          <h4 class="text-xl font-medium">Bachelor of Science in Computer Science</h4>
+          <h5 class="font-medium">University of California, Berkeley</h5>
+          <div class="text-gray-500 dark:text-gray-400">Sep 2013 - May 2017</div>
+          <p class="mt-2 text-sm text-gray-500">Completed a comprehensive curriculum in computer science, including courses in data structures, algorithms, software engineering, and artificial intelligence. Worked on several projects, including a web application for managing student organizations and a mobile app for tracking fitness activities.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== Testimonials ===== -->
+    <section id="testimonials" class="container max-w-5xl mx-auto py-12 md:py-16 lg:py-20">
+      <h2 class="font-bold text-3xl md:text-5xl mb-12">Testimonials</h2>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6 text-left">
+          <blockquote class="font-medium lg:text-og">&ldquo;John is a fantastic developer who consistently delivers high-quality work. His ability to solve complex problems is impressive..&rdquo;</blockquote>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+              <img src="/assets/testimonial_1_avatar.jpg" width="50" height="50" alt="testimonial avatar" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <div class="font-semibold">Jane Smith</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">Project Manager @ Tech Solutions Inc.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6 text-left">
+          <blockquote class="font-medium lg:text-og">&ldquo;John is a highly skilled developer who brings a lot of value to our projects. His expertise in full stack development is top-notch..&rdquo;</blockquote>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+              <img src="/assets/testimonial_2_avatar.jpg" width="50" height="50" alt="testimonial avatar" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <div class="font-semibold">Mike Johnson</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">CEO @ Web Innovators LLC</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== Blogs ===== -->
+    <section id="blogs" class="container max-w-5xl mx-auto py-12 md:py-16 lg:py-20">
+      <h2 class="font-bold text-3xl md:text-5xl mb-12">Blogs</h2>
+      <div class="flex flex-col space-y-8">
+        <!-- No blog posts found -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="py-4 container border-t mt-20">
+    <p class="text-sm text-gray-400 text-center">
+      All rights reserved by
+      <a href="https://github.com/Logging-Studio" target="_blank" class="ml-1 text-primary">Logging Studio</a>
+      • Distributed by
+      <a href="https://themewagon.com" target="_blank" class="ml-1 text-primary">ThemeWagon</a>
+    </p>
+  </footer>
+
+  <!-- ===================== MOBILE MENU ===================== -->
+  <div id="mobile-menu" class="fixed inset-0 z-50">
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/80"></div>
+    <div id="mobile-panel" class="fixed inset-y-0 right-0 h-full w-3/4 bg-background p-6 shadow-lg sm:max-w-sm">
+      <button type="button" id="mobile-close" class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" aria-label="Close">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <span class="sr-only">Close</span>
+      </button>
+      <div class="grid gap-6 p-6">
+        <button type="button" class="theme-toggle mb text-gray-350" aria-label="Toggle theme">
+          <svg class="icon-sun h-[15px] w-[15px] hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7.5" cy="7.5" r="3"/>
+            <path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M2.9 2.9l1.05 1.05M11.05 11.05l1.05 1.05M2.9 12.1l1.05-1.05M11.05 3.95l1.05-1.05"/>
+          </svg>
+          <svg class="icon-moon h-[15px] w-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.5 9.5A5.5 5.5 0 0 1 5.5 2.5 5.5 5.5 0 1 0 12.5 9.5Z"/>
+          </svg>
+        </button>
+        <a href="#experience" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50 mobile-nav-link">Experience</a>
+        <a href="#projects" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50 mobile-nav-link">Projects</a>
+        <a href="#education" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50 mobile-nav-link">Education</a>
+        <a href="#testimonials" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50 mobile-nav-link">Testimonials</a>
+        <a href="#blogs" class="text-sm transition-colors text-gray-350 hover:text-primary dark:hover:text-gray-50 mobile-nav-link">Blogs</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script>
+    (function () {
+      // ---------- Theme Toggle ----------
+      function updateThemeIcons() {
+        var isDark = document.body.classList.contains('dark');
+        document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+          var sun = btn.querySelector('.icon-sun');
+          var moon = btn.querySelector('.icon-moon');
+          if (isDark) {
+            if (sun) sun.classList.remove('hidden');
+            if (moon) moon.classList.add('hidden');
+          } else {
+            if (sun) sun.classList.add('hidden');
+            if (moon) moon.classList.remove('hidden');
+          }
+        });
+      }
+
+      function setTheme(theme) {
+        localStorage.setItem('globalTheme', theme);
+        if (theme === 'dark') {
+          document.body.classList.add('dark');
+        } else {
+          document.body.classList.remove('dark');
+        }
+        updateThemeIcons();
+      }
+
+      document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var current = localStorage.getItem('globalTheme') || 'light';
+          setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+      });
+
+      // Init icons on load
+      updateThemeIcons();
+
+      // ---------- Mobile Menu ----------
+      var menu = document.getElementById('mobile-menu');
+      var openBtn = document.getElementById('mobile-open');
+      var closeBtn = document.getElementById('mobile-close');
+      var overlay = document.getElementById('mobile-overlay');
+
+      function openMenu() {
+        menu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        menu.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      if (openBtn) openBtn.addEventListener('click', openMenu);
+      if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+      if (overlay) overlay.addEventListener('click', closeMenu);
+
+      document.querySelectorAll('.mobile-nav-link').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+    })();
+  </script>
+</body>
+</html>
